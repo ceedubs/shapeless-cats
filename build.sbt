@@ -20,7 +20,10 @@ lazy val buildSettings = Seq(
   resolvers ++= Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven",
     Resolver.sonatypeRepo("releases"),
-    Resolver.sonatypeRepo("snapshots")))
+    Resolver.sonatypeRepo("snapshots")),
+  testFrameworks += new TestFramework("scalaprops.ScalapropsFramework"),
+  parallelExecution in Test := false, // currently scalaprops does not support parallel execution
+  libraryDependencies += "com.github.scalaprops" %% "scalaprops" % "0.1.9" % "test")
 
 lazy val shapelessCats = project.in(file("."))
   .settings(moduleName := "shapeless-cats")
@@ -33,4 +36,5 @@ lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
       "com.chuusai" %% "shapeless" % "2.2.0",
-      "org.spire-math" %% "cats-core" % "0.1.0-SNAPSHOT"))
+      "org.spire-math" %% "cats-core" % "0.1.0-SNAPSHOT",
+      "org.spire-math" %% "cats-std" % "0.1.0-SNAPSHOT" % "test"))
